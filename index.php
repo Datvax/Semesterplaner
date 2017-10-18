@@ -15,7 +15,7 @@
 
 </div>
 <div id="main">
-	plopp
+
 </div>
 <footer>
 </footer>

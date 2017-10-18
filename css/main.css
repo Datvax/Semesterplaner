@@ -5,3 +5,29 @@ body{
 
 	font-family: 'Roboto', sans-serif;
 }
+
+
+
+/*Table styling*/
+/**/
+
+#timetable{
+	border-spacing: 0;
+}
+#timetable tr{
+
+}
+#timetable tbody>tr{
+	height: 50px;
+}
+#timetable tbody>tr:nth-child(odd){
+	background-color: #969696;
+}
+#timetable tr>th{
+	width: 100px;
+	height: 40px;
+}
+#timetable tr>td{
+	margin: 0;
+	padding: 0;
+}

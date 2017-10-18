@@ -9,13 +9,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<?php include "plugin/import/head.php" ?>
+	<title>Semesterplaner</title>
 </head>
 <body>
 <div id="navigation" >
-
+	<?php include "plugin/navigation/navbar.php"; ?>
 </div>
 <div id="main">
-111
+
 </div>
 <footer>
 </footer>

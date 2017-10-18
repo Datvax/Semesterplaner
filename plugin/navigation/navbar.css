@@ -1,0 +1,156 @@
+.navLink {
+    text-decoration: none !important;
+    display: block;
+    padding-left: 5px;
+    color: inherit;
+    font-weight: lighter;
+}
+#navbar {
+    width: 100%;
+    height: inherit;
+    /*position: fixed;*/
+    background-color: #3d3d44;
+    color: #FFFFFF;
+    text-align: left;
+
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+}
+#navbar>ul {
+    display: block;
+    width: 1000px;
+    height: 40px;
+    margin: 0 auto;
+    padding: 0;
+
+}
+#navbar>ul>li {
+    display: block;
+    width: 150px;
+    height: 40px;
+    float: left;
+    line-height: 40px;
+    position: relative;
+    transition: 0.5s;
+}
+#navbar>ul>li:hover {
+    background-color: rgba(0, 124, 250, 0.4);
+}
+#navbar>ul>li>p {
+    margin: 0;
+    padding-left: 5px;
+    cursor: default;
+    font-weight: lighter;
+}
+#navbar>ul>li>ul {
+    visibility: hidden;
+    display: block;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    background-color: #4b4b4b;
+}
+#navbar>ul>li.navbarDrop:hover>ul {
+    visibility: visible;
+}
+#navbar>ul>li>ul>li {
+    display: block;
+    width: 250px;
+    height: 40px;
+    float: left;
+}
+#navbar>ul>li>ul>li:hover {
+    background-color: rgba(0, 124, 250, 0.4);
+}
+#navLogin, #navLogout {
+    float: right !important;
+    text-align: right;
+
+}
+#navLoginP {
+    cursor: pointer !important;
+    padding-right: 5px;
+}
+#navLogin>ul, #navLogout>ul {
+    float: left !important;
+    right: 0;
+}
+#navLogin>ul>form>li, #navLogout>ul>form>li {
+    display: block;
+    width: 250px;
+    height: 40px;
+    float: left;
+}
+#navLoginNotification {
+    width: 1000px;
+    height: 20px;
+    margin: 0 auto;
+    padding: 0;
+    color: #FF3D00;
+    text-align: center;
+}
+#navLogoutButton {
+    border: none;
+    background-color: transparent;
+    margin: 0 !important;
+    width: 150px;
+    height: 40px;
+    float: left;
+    font-size: medium;
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: lighter;
+    color: inherit;
+    cursor: pointer;
+}
+.navLoginButton {
+    border: 1px solid;
+    background-color: #FFFFFF;
+    border-color: #969696;
+    border-radius: 4px;
+    padding: 5px 12px;
+    margin-top: 6px;
+    float: left;
+}
+.navRegisterButton {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+    margin-top: 6px;
+    cursor: pointer;
+    color: blue;
+    float: left;
+}
+.navInput {
+    border: 1px solid;
+    background-color: #FFFFFF;
+    border-color: #969696;
+    border-radius: 4px;
+    padding: 5px 12px;
+    margin-top: 6px;
+    float: left;
+}
+.navInput, .navLoginButton, .navRegisterButton {
+    margin-left: 10px !important;
+}
+.ShowMenue {
+    visibility: visible !important;
+}
+.ShowMenueOnClick {
+    background-color: rgba(188, 188, 188, 0.4) !important;
+}
+#navbarSearch {
+    width: 200px;
+    height: inherit;
+    float: left;
+    line-height: 40px;
+}
+#navbarSearch>form>input {
+    width: 190px;
+    height: 24px;
+    margin-left: 5px;
+    font-weight: lighter;
+    font-size: smaller;
+    font-family: inherit;
+}

@@ -11,23 +11,31 @@ body{
 /*Table styling*/
 /**/
 
-#timetable{
+.timetable{
 	border-spacing: 0;
 }
-#timetable tr{
+.timetable tr{
 
 }
-#timetable tbody>tr{
-	height: 50px;
+.timetable tbody>tr{
+	height: 90px;
 }
-#timetable tbody>tr:nth-child(odd){
+.timetable tbody>tr:nth-child(odd){
 	background-color: #969696;
 }
-#timetable tr>th{
-	width: 100px;
+.timetable tr>th{
+	width: 150px;
 	height: 40px;
 }
-#timetable tr>td{
+.timetable tr>td{
 	margin: 0;
 	padding: 0;
+	width: 150px;
+}
+.timetable--hours>div{
+	height: 30px;
+	width: inherit;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

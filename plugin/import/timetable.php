@@ -43,9 +43,9 @@ function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semest
 		for($runLara = 1; $runLara <= $semesterCount; $runLara++){
 			$newSemesterTable .= "
 				<td class='timetable--hours'>
-					<div class='timetable--hour--1'>".$semesterClasses[$hourCounter + $dayCounter]."</div>
-					<div class='timetable--hour--2'>".$semesterClasses[$hourCounter  + $dayCounter +1]."</div>
-					<div class='timetable--hour--3'>".$semesterClasses[$hourCounter  + $dayCounter +2]."</div>
+					<div class='timetable--hour--1'>".$semesterClasses[$hourCounter + $dayCounter][0]."</div>
+					<div class='timetable--hour--2'>".$semesterClasses[$hourCounter  + $dayCounter +1][0]."</div>
+					<div class='timetable--hour--3'>".$semesterClasses[$hourCounter  + $dayCounter +2][0]."</div>
 				</td>
 			";
 			/**amount of divs per day times 5**/

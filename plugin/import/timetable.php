@@ -6,7 +6,7 @@
  * Time: 19:05
  */
 
-function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semesterClasses = null){
+function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semesterClasses = null, array $semesterClasseID){
 	/**table head**/
 	$newSemesterTable = "
 	<table class='".$tableClass."'>
@@ -41,18 +41,28 @@ function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semest
 				</td>
 		";
 		for($runLara = 1; $runLara <= $semesterCount; $runLara++){
+			/**
+			input:
+			 * type: checkbox
+			 * value: ID of the class that is shown in the Label
+			 * id: 'checkbox--timetable--[counter of the table]
+			label:
+			 * class: just for css purposes
+			 * for: relates to the id of the checkbox
+			Note that the checkbox is hidden but works the same as a usual checkbox
+			 **/
 			$newSemesterTable .= "
 				<td class='timetable--hours'>
 					<div class='timetable--hour--1'>
-						<input type='checkbox' value='".$semesterClasses[$hourCounter + $dayCounter][0]."' id='checkbox--timetable--".($hourCounter + $dayCounter)."' class='checkbox--timetable'>
+						<input type='checkbox' value='".$semesterClasseID[$hourCounter + $dayCounter][0]."' id='checkbox--timetable--".($hourCounter + $dayCounter)."' class='checkbox--timetable'>
 						<label class='label--timetable' for='checkbox--timetable--".($hourCounter + $dayCounter)."'>".$semesterClasses[$hourCounter + $dayCounter][0]."</label>
 					</div>
 					<div class='timetable--hour--2'>
-						<input type='checkbox' value='".$semesterClasses[$hourCounter + $dayCounter +1][0]."' id='checkbox--timetable--".($hourCounter + $dayCounter +1)."' class='checkbox--timetable'>
+						<input type='checkbox' value='".$semesterClasseID[$hourCounter + $dayCounter +1][0]."' id='checkbox--timetable--".($hourCounter + $dayCounter +1)."' class='checkbox--timetable'>
 						<label class='label--timetable' for='checkbox--timetable--".($hourCounter + $dayCounter +1)."'>".$semesterClasses[$hourCounter  + $dayCounter +1][0]."</label>
 					</div>
 					<div class='timetable--hour--3'>
-						<input type='checkbox' value='".$semesterClasses[$hourCounter + $dayCounter +2][0]."' id='checkbox--timetable--".($hourCounter + $dayCounter +2)."' class='checkbox--timetable'>
+						<input type='checkbox' value='".$semesterClasseID[$hourCounter + $dayCounter +2][0]."' id='checkbox--timetable--".($hourCounter + $dayCounter +2)."' class='checkbox--timetable'>
 						<label class='label--timetable' for='checkbox--timetable--".($hourCounter + $dayCounter +2)."'>".$semesterClasses[$hourCounter  + $dayCounter +2][0]."</label>
 					</div>
 				</td>

@@ -7,11 +7,18 @@
  */
 
 $weekDay = array("Montag","Dienstag","Mittwoch","Donnerstag","Freitag");
-$semesterClasses = array("Mathematik 1 Übung", "Mathematik 1 Übung", "Medienrecht","","Mathematik 1","Team Studieneinstieg","","Informatik 1","Informatik 1 Labor","Programmieren 1","Media","Dramaturgie 1","","","","Mathematik 2 Ünung","Mathematik 2 Übung","","Mathematik 2","irgendwas");
+//$semesterClasses = array("Mathematik 1 Übung", "Mathematik 1 Übung", "Medienrecht","","Mathematik 1","Team Studieneinstieg","","Informatik 1","Informatik 1 Labor","Programmieren 1","Media","Dramaturgie 1","","","","Mathematik 2 Ünung","Mathematik 2 Übung","","Mathematik 2","irgendwas");
 
 if(file_exists("plugin/import/timetable.php")){include "plugin/import/timetable.php";}
 if(file_exists("plugin/import/various.php")){include "plugin/import/various.php";}
 if(file_exists("plugin/database/presenter.php")){include "plugin/database/presenter.php";}
+
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+	echo "wubwub";
+	echo ($_POST["checkbox--timetable--0"]); // <-----------------------------------------------------HIER WEITER MACHEN!!
+}
 
 ?>
 <!DOCTYPE html>
@@ -27,7 +34,7 @@ if(file_exists("plugin/database/presenter.php")){include "plugin/database/presen
 <div id="main">
 	<form method="post">
 	<?php
-		echo (SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16"))));
+		echo (SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16")),getTimetableClassIDs("StundenplanMS")));
 	?>
 		<input type="submit" value="send" class="button--send">
 	</form>

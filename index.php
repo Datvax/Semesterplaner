@@ -25,9 +25,12 @@ if(file_exists("plugin/database/presenter.php")){include "plugin/database/presen
 	<?php include "plugin/navigation/navbar.php"; ?>
 </div>
 <div id="main">
+	<form method="post">
 	<?php
 		echo (SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16"))));
 	?>
+		<input type="submit" value="send" class="button--send">
+	</form>
 </div>
 <footer>
 </footer>

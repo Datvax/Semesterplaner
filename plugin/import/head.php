@@ -11,6 +11,6 @@ echo ("
     <link href=\"https://fonts.googleapis.com/css?family=Roboto\" rel=\"stylesheet\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"plugin/navigation/navbar.css\">
     <link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\">
-    <script type=\"text/javascript\" src=\"libraries/jquery.js\"></script>
+    <script type=\"text/javascript\" src=\"/libraries/jquery.js\"></script>
 ");
 ?>

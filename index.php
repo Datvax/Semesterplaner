@@ -12,12 +12,25 @@ $weekDay = array("Montag","Dienstag","Mittwoch","Donnerstag","Freitag");
 if(file_exists("plugin/import/timetable.php")){include "plugin/import/timetable.php";}
 if(file_exists("plugin/import/various.php")){include "plugin/import/various.php";}
 if(file_exists("plugin/database/presenter.php")){include "plugin/database/presenter.php";}
+if(file_exists("plugin/database/transmitter.php")){include "plugin/database/transmitter.php";}
+
+
+$tempUserID = 1;
+
+$userTimetable = showUserTimetable($tempUserID);
+
 
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-	echo "wubwub";
-	echo ($_POST["checkbox--timetable--0"]); // <-----------------------------------------------------HIER WEITER MACHEN!!
+	$tableIDs = $_POST["timetable--Checkbox--ID"];
+
+
+	if (checkForID($tempUserID) == 0){
+		sendTimetableIDs($tempUserID,$_POST["timetable--Checkbox--ID"]);
+	} else {
+		updateTimetableIDs($tempUserID,$_POST["timetable--Checkbox--ID"]);
+	}
 }
 
 ?>
@@ -37,6 +50,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		echo (SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16")),getTimetableClassIDs("StundenplanMS")));
 	?>
 		<input type="submit" value="send" class="button--send">
+		<br>
+		<br>
+		<br>
+		Stundenplan:
+		<?php
+		$userTimetableData = showUserTimetable($tempUserID);
+			echo userTable("timetable",$weekDay,$userTimetableData);
+		?>
 	</form>
 </div>
 <footer>

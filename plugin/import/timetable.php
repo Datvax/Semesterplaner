@@ -113,9 +113,9 @@ function userTable($tableClass ,array $weekdays,array $userTableData){
 	";
 	$timeCounter = 0;
 	/**Timestamps that will be shown in the timetable**/
-	$semesterTime = [1511339400, 1511355600, 1511370000 ];
+	$semesterTime = [strtotime("08:30:00"), strtotime("13:00:00"), strtotime("17:00:00") ];
 	/**Loops through the times with an offset of 30 min (1800 Unix timestamp)**/
-	for($runChell = 1511308800; $runChell <= 1511395199; $runChell = $runChell + 1800) {
+	for($runChell = strtotime("00:00:00"); $runChell <= strtotime("23:59:59"); $runChell = $runChell + 1800) {
 		$dayCounter = 1;
 		/**Creates the times on the left of the table**/
 		if($runChell == $semesterTime[0] || $runChell == $semesterTime[1] || $runChell == $semesterTime[2]){
@@ -126,10 +126,8 @@ function userTable($tableClass ,array $weekdays,array $userTableData){
 				</td>
 			";
 		}
-
 		/**Triggers when the Database delivers a matching hour**/
 		if($runChell == strtotime($userTableData[$timeCounter][2])) {
-
 			for ($runLara = 1; $runLara <= count($weekdays); $runLara++) {
 				if($userTableData[$timeCounter][1]==$dayCounter){
 					$writeClass = $userTableData[$timeCounter][0];

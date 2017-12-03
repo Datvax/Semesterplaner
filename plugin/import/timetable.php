@@ -7,6 +7,18 @@
  */
 
 function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semesterClasses = null, array $semesterClasseID){
+	/**make sure that there are enough ID's for every span in the table**/
+	if(count($semesterClasseID) <= (15*$semesterCount)){
+		for($runCat = count($semesterClasseID); $runCat < (15*$semesterCount); $runCat++){
+			$semesterClasseID[$runCat][0]="1";
+			//array_push($semesterClasseID,"1");
+		}
+	}
+	echo count($semesterClasseID);
+	echo "<br>";
+	for($runCat1 = 0; $runCat1 <= count($semesterClasseID); $runCat1++){
+		print " ".$semesterClasseID[$runCat1][0];
+	}
 	/**table head**/
 	$newSemesterTable = "
 	<table class='".$tableClass."'>
@@ -87,7 +99,11 @@ function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semest
 
 
 function userTable($tableClass ,array $weekdays,array $userTableData){
-	/**table head**/
+	/**replaces every "Freistunde" with an empty string**/
+	include_once "various.php";
+	$userTableData = replaceStrInArray("Freistunde","",$userTableData);
+
+	/**create table head**/
 	$newUserTable = "
 	<table class='".$tableClass."'>
 		<thead>

@@ -22,14 +22,11 @@ $userTimetable = showUserTimetable($tempUserID);
 
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
 	$tableIDs = $_POST["timetable--Checkbox--ID"];
-
-
 	if (checkForID($tempUserID) == 0){
-		sendTimetableIDs($tempUserID,$_POST["timetable--Checkbox--ID"]);
+		sendTimetableIDs($tempUserID,$tableIDs);
 	} else {
-		updateTimetableIDs($tempUserID,$_POST["timetable--Checkbox--ID"]);
+		updateTimetableIDs($tempUserID,$tableIDs);
 	}
 }
 

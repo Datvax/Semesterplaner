@@ -66,17 +66,27 @@ function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semest
 			 **/
 			$newSemesterTable .= "
 				<td class='timetable--hours'>
-					<div class='timetable--hour--1'>
+					<div class='timetable--hour--1'>";
+					if(($semesterClasseID[$hourCounter + $dayCounter][0])>1){
+						$newSemesterTable .= "
 						<input type='checkbox' name='timetable--Checkbox--ID[]' value='".$semesterClasseID[$hourCounter + $dayCounter][0]."' id='checkbox--timetable--".($hourCounter + $dayCounter)."' class='checkbox--timetable'>
-						<label class='label--timetable' for='checkbox--timetable--".($hourCounter + $dayCounter)."'>".$semesterClasses[$hourCounter + $dayCounter][0]."</label>
-					</div>
-					<div class='timetable--hour--2'>
+						<label class='label--timetable' for='checkbox--timetable--".($hourCounter + $dayCounter)."'>".$semesterClasses[$hourCounter + $dayCounter][0]."</label>";
+					}
+					$newSemesterTable .= "</div>
+					<div class='timetable--hour--2'>";
+					if(($semesterClasseID[$hourCounter + $dayCounter +1][0])>1){
+						$newSemesterTable .= "
 						<input type='checkbox' name='timetable--Checkbox--ID[]' value='".$semesterClasseID[$hourCounter + $dayCounter +1][0]."' id='checkbox--timetable--".($hourCounter + $dayCounter +1)."' class='checkbox--timetable'>
-						<label class='label--timetable' for='checkbox--timetable--".($hourCounter + $dayCounter +1)."'>".$semesterClasses[$hourCounter  + $dayCounter +1][0]."</label>
-					</div>
-					<div class='timetable--hour--3'>
+						<label class='label--timetable' for='checkbox--timetable--".($hourCounter + $dayCounter +1)."'>".$semesterClasses[$hourCounter  + $dayCounter +1][0]."</label>";
+					}
+					$newSemesterTable .= "</div>
+					<div class='timetable--hour--3'>";
+					if(($semesterClasseID[$hourCounter + $dayCounter +2][0])>1){
+						$newSemesterTable .= "
 						<input type='checkbox' name='timetable--Checkbox--ID[]' value='".$semesterClasseID[$hourCounter + $dayCounter +2][0]."' id='checkbox--timetable--".($hourCounter + $dayCounter +2)."' class='checkbox--timetable'>
-						<label class='label--timetable' for='checkbox--timetable--".($hourCounter + $dayCounter +2)."'>".$semesterClasses[$hourCounter  + $dayCounter +2][0]."</label>
+						<label class='label--timetable' for='checkbox--timetable--".($hourCounter + $dayCounter +2)."'>".$semesterClasses[$hourCounter  + $dayCounter +2][0]."</label>";
+					}
+					$newSemesterTable .= "
 					</div>
 				</td>
 			";
@@ -142,8 +152,8 @@ function userTable($tableClass ,array $weekdays,array $userTableData){
 				</td>
 			";
 		}
-		/**Triggers when the Database delivers a matching hour**/
-		if($runChell == strtotime($userTableData[$timeCounter][2])) {
+		/**triggers at specific times**/
+		if($runChell == strtotime("08:30:00")||$runChell == strtotime("13:00:00")||$runChell == strtotime("17:00:00")) {
 			for ($runLara = 1; $runLara <= count($weekdays); $runLara++) {
 				if($userTableData[$timeCounter][1]==$dayCounter){
 					$writeClass = $userTableData[$timeCounter][0];

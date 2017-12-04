@@ -14,6 +14,15 @@ echo ('
             <li class="navbarDrop">
                 <p><a class="navLink" href="'.$localHomeLocation.'">Home</a></p>
             </li>
+            <li class="navbarDrop">
+                <p><a class="navLink" href="/project/HAW/Semesterplan/map.php">Karte</a></p>
+            </li>
+            <li class="navbarDrop">
+                <p><a class="navLink" href="/project/HAW/Semesterplan/user.php">Probeuser</a></p>
+            </li>
+            <li class="navbarDrop">
+                <p><a class="navLink" href="/project/HAW/Semesterplan/timetable.php">Stundenplan</a></p>
+            </li>
             '.$logoutButton.'
         </ul>
         <script type="text/javascript">

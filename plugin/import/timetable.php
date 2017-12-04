@@ -14,11 +14,6 @@ function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semest
 			//array_push($semesterClasseID,"1");
 		}
 	}
-	echo count($semesterClasseID);
-	echo "<br>";
-	for($runCat1 = 0; $runCat1 <= count($semesterClasseID); $runCat1++){
-		print " ".$semesterClasseID[$runCat1][0];
-	}
 	/**table head**/
 	$newSemesterTable = "
 	<table class='".$tableClass."'>

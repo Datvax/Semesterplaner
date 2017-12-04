@@ -5,8 +5,47 @@ body{
 
 	font-family: 'Roboto', sans-serif;
 }
-
-
+#main{
+	width: 1004px;
+	margin-top: 4px;
+	margin-right: auto;
+	margin-left: auto;
+}
+#leftContent{
+	float: left;
+	width: 200px;
+}
+#rightContent{
+	float: right;
+	width: 784px;
+}
+.button--div--largeButton{
+	width: inherit;
+	height: 200px;
+	padding: 0;
+	margin: 20px 0;
+	border: 1px solid rgba(154,185,217,0.5);
+	box-sizing: border-box;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	user-select: none;
+	transition: 0.3s;
+}
+.button--div--largeButton:hover{
+	border-color: #9ab9d9;;
+	background-color: rgba(154,185,217,0.5);
+}
+.button--div--largeButton>a{
+	width: inherit;
+	height: inherit;
+	display: block;
+	text-decoration: none;
+	color: black;
+	line-height: 200px;
+	text-align: center;
+	font-size: x-large;
+}
 
 /*Table styling*/
 /**/
@@ -56,4 +95,14 @@ body{
 .checkbox--timetable:checked + .label--timetable{
 	background-color: rgba(154,185,217,0.5);
 	border: 1px solid #9ab9d9;
+}
+
+/**map styling**/
+/****/
+.map--campusMap{
+	width: 784px;
+	height: auto;
+	border: 0;
+	margin: 0;
+	padding: 0;
 }

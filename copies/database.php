@@ -8,27 +8,6 @@
 
 /**entrance file**/
 
-/**Function to get a specific user from the Database**/
-function getUserIDAndPassword($userName){
-
-	/**Gets a user from the UserTable**/
-	$sqlUserIDAndPassword = $conn->prepare('SELECT `ID`, `Password` FROM '.$userTable.' WHERE UserName=?');
-	$sqlUserIDAndPassword->execute(array($userName));
-	$userIDAndPassword = $sqlUserIDAndPassword->fetch();
-	/**if($sqlUser->fetch()){
-	$user = $sqlUser->fetch();
-	}else{
-	$user = null;
-	}**/
-	return $userIDAndPassword;
-}
-function rememberMe($selector, $hashedValidator, $userID){
-
-	/**Sends the token and the selector:validator pair to the DB**/
-	$sqlRememberMe = $conn->prepare('INSERT INTO `auth_tokens`(`selector`, `hashedValidator`, `userID`, `expires`) VALUES (?,?,?,DATE_ADD(NOW(), INTERVAL 1 YEAR ))');
-	$sqlRememberMe->execute(array($selector, $hashedValidator, $userID));
-	//$rememberMe = $sqlRememberMe->fetch();
-}
 
 
 

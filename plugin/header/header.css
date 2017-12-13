@@ -1,0 +1,44 @@
+#serviceNav{
+	height: 15px;
+	margin: 14px 0 15px 0;
+	padding: 0;
+	list-style: none;
+}
+#serviceNav>li{
+	display: inline;
+	margin: 3px 5px 0 0;
+	float: right;
+	padding-bottom: .5em;
+}
+#serviceNav a{
+	padding-left: 8px;
+	color: #4c423d;
+	height: 10px;
+	overflow: hidden;
+	line-height: 10px;
+	border-left: 1px solid #c8ba9e;
+	text-decoration: none;
+	font: 11px Arial,sans-serif;
+}
+
+
+#actualHeader{
+	width: 1004px;
+	height: 160px;
+	margin-bottom: 20px;
+	padding: 0;
+}
+#headerLogo{
+	padding: 25px 0 25px 0;
+	float: left;
+}
+#randomHeaderImage{
+	float: right;
+}
+#randomHeaderImage>img{
+	width: 193px;
+	height: 160px;
+	margin: 0 0 0 4px;
+	float: right;
+	overflow: hidden;
+}

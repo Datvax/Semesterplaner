@@ -52,6 +52,8 @@ body{
 
 .timetable{
 	border-spacing: 0;
+	width: 784px;
+	table-layout: fixed;
 }
 .timetable tr{
 
@@ -63,18 +65,29 @@ body{
 	background-color: #969696;
 }
 .timetable tr>th{
-	width: 150px;
+	padding: 0;
 	height: 40px;
 }
 .timetable tr>td{
 	margin: 0;
+}
+.timetable--weekdays{
+	padding: 0 0 0 10px;
+}
+.timetable--time{
+	width: 80px;
+	text-align: center;
 	padding: 0;
-	width: 150px;
+}
+.timetable--hours{
+	padding: 0;
 }
 .timetable--hours>div{
 	height: 30px;
 	width: inherit;
-
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .checkbox--timetable{
 	display: none;
@@ -105,4 +118,46 @@ body{
 	border: 0;
 	margin: 0;
 	padding: 0;
+}
+
+/**timetable styling**/
+/****/
+.form--login, .form--anonymous{
+	width: inherit;
+	height: 260px;
+	padding: 10px;
+	margin: 20px 0;
+	border: 1px solid rgba(154,185,217,0.5);
+	box-sizing: border-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	user-select: none;
+	transition: 0.3s;
+}
+
+/**form styling**/
+/****/
+.input--text{
+	max-width: 300px;
+	width: 99%;
+	height: 30px;
+	font-family: 'Roboto', sans-serif;
+	font-style: italic;
+	display: block;
+	margin: 10px;
+}
+
+.input--button{
+	border: solid #C6B9A6 1px;
+	background-color: #f9f9f9;
+	border-radius: 2px;
+	font-family: 'Roboto', sans-serif;
+	font-style: normal;
+	padding: 4px 12px;
+	transition: 0.5s;
+}
+.input--button:hover{
+	background-color: #003CA0;
+	border-color: rgba(154,185,217,0.5);
+	color: #ffffff;
 }

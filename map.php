@@ -6,6 +6,9 @@
  * Time: 00:46
  */
 
+if(file_exists("plugin/navigation/navbar_side.php")){include "plugin/navigation/navbar_side.php";}
+if(file_exists("plugin/header/header.php")){include "plugin/header/header.php";}
+
 if(file_exists("plugin/import/timetable.php")){include "plugin/import/timetable.php";}
 if(file_exists("plugin/import/various.php")){include "plugin/import/various.php";}
 if(file_exists("plugin/database/presenter.php")){include "plugin/database/presenter.php";}
@@ -20,11 +23,9 @@ if(file_exists("plugin/database/transmitter.php")){include "plugin/database/tran
 	<title>Semesterplaner</title>
 </head>
 <body>
-<div id="navigation" >
-	<?php include "plugin/navigation/navbar.php"; ?>
-</div>
 <div id="main">
-	<div id="leftContent">Hier kommt die Navigation hin</div>
+	<?php echo sideHeader();?>
+	<div id="leftContent"><?php echo navbarSide($sideURlsAndNames);?></div>
 	<div id="rightContent">
 	<img src="map/Gebaeude_A_-_0_blue.png" class="map--campusMap" usemap="Gebaeude_A_-_0_blue_map" />
 	<map name="Gebaeude_A_-_0_blue_map">

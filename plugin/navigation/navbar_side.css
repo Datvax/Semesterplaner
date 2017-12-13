@@ -1,0 +1,28 @@
+#navbar--side{
+	margin: 0;
+	padding: 0;
+}
+.navbar--side--point{
+	display: inline;
+	list-style: none;
+
+
+
+}
+.navLink{
+	text-decoration: none;
+	display: block;
+	margin: 4px 0;
+	padding-left: 8px;
+	color: #4c423d;
+	font-weight: lighter;
+	border-left: 4px solid #C6B9A6;
+
+}
+.navbar--cur{
+	border-left: 4px solid #003CA0;
+	padding-left: 8px;
+}
+#navbar--side a:hover{
+	border-left: 4px solid #003CA0;
+}

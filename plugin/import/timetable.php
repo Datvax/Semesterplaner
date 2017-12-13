@@ -30,9 +30,11 @@ function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semest
 				</th>
 	";
 	}
-	/**end of table head**/
-	/**and**/
-	/**start table body**/
+	/**
+	 * end of table head
+	 * and
+	 * start table body
+	 */
 	$newSemesterTable .= "
 			</tr>
 		</thead>
@@ -43,22 +45,22 @@ function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semest
 		$dayCounter = 0;
 		$newSemesterTable .= "
 			<tr>
-				<td>
+				<td class='timetable--weekdays'>
 					".$weekdays[$runChell]."
 				</td>
 		";
 		for($runLara = 1; $runLara <= $semesterCount; $runLara++){
 			/**
-			input:
-			 * type: checkbox
-			 * name: the names have these [] to use them as an array
-			 * value: ID of the class that is shown in the Label
-			 * id: 'checkbox--timetable--[counter of the table]
-			label:
-			 * class: just for css purposes
-			 * for: relates to the id of the checkbox
-			Note that the checkbox is hidden but works the same as a usual checkbox
-			 **/
+			 * input:
+			 * 	type: checkbox
+			 * 	name: the names have these [] to use them as an array
+			 * 	value: ID of the class that is shown in the Label
+			 * 	id: 'checkbox--timetable--[counter of the table]
+			 * label:
+			 * 	class: just for css purposes
+			 * 	for: relates to the id of the checkbox
+			 * Note that the checkbox is hidden but works the same as a usual checkbox
+			 */
 			$newSemesterTable .= "
 				<td class='timetable--hours'>
 					<div class='timetable--hour--1'>";
@@ -117,16 +119,18 @@ function userTable($tableClass ,array $weekdays,array $userTableData){
 					Uhrzeit
 				</th>
 	";
-	for($runChell = 0; $runChell <= count($weekdays); $runChell++){
+	for($runChell = 0; $runChell < count($weekdays); $runChell++){
 		$newUserTable .= "
 				<th>
 					".$weekdays[$runChell]."
 				</th>
 	";
 	}
-	/**end of table head**/
-	/**and**/
-	/**start table body**/
+	/**
+	 * end of table head
+	 * and
+	 * start table body
+	 */
 	$newUserTable .= "
 			</tr>
 		</thead>
@@ -142,8 +146,8 @@ function userTable($tableClass ,array $weekdays,array $userTableData){
 		if($runChell == $semesterTime[0] || $runChell == $semesterTime[1] || $runChell == $semesterTime[2]){
 			$newUserTable .= "
 			<tr>
-				<td>
-					" .gmdate("H:i:s", $runChell)."
+				<td class='timetable--time'>
+					" .gmdate("H:i", $runChell)."
 				</td>
 			";
 		}

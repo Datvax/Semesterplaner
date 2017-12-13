@@ -9,6 +9,9 @@
 $weekDay = array("Montag","Dienstag","Mittwoch","Donnerstag","Freitag");
 //$semesterClasses = array("Mathematik 1 Übung", "Mathematik 1 Übung", "Medienrecht","","Mathematik 1","Team Studieneinstieg","","Informatik 1","Informatik 1 Labor","Programmieren 1","Media","Dramaturgie 1","","","","Mathematik 2 Ünung","Mathematik 2 Übung","","Mathematik 2","irgendwas");
 
+if(file_exists("plugin/navigation/navbar_side.php")){include "plugin/navigation/navbar_side.php";}
+if(file_exists("plugin/header/header.php")){include "plugin/header/header.php";}
+
 if(file_exists("plugin/import/timetable.php")){include "plugin/import/timetable.php";}
 if(file_exists("plugin/import/various.php")){include "plugin/import/various.php";}
 if(file_exists("plugin/database/presenter.php")){include "plugin/database/presenter.php";}
@@ -37,15 +40,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	<title>Semesterplaner</title>
 </head>
 <body>
-<div id="navigation" >
-	<?php include "plugin/navigation/navbar.php"; ?>
-</div>
 <div id="main">
-	<?php
-	$userTimetableData = showUserTimetable($tempUserID);
-	echo (userTable("timetable",$weekDay,$userTimetableData));
-	?>
-	<a href="timetable.php">Stundenplan Editieren</a>
+	<?php echo sideHeader();?>
+	<div id="leftContent"><?php echo navbarSide($sideURlsAndNames);?></div>
+	<div id="rightContent">
+		<?php
+		$userTimetableData = showUserTimetable($tempUserID);
+		echo (userTable("timetable",$weekDay,$userTimetableData));
+		?>
+		<a href="timetable.php">Stundenplan Editieren</a>
+	</div>
 </div>
 <footer>
 </footer>

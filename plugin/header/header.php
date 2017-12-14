@@ -6,10 +6,21 @@
  * Time: 19:34
  */
 
-function sideHeader(){
+/**
+ * @param boolean $loginChecker
+ * @return string
+ */
+function sideHeader($loginChecker = null){
 	$sideHeader = '
-	<ul id="serviceNav">
-		<li><a>Login</a></li>
+	<ul id="serviceNav">';
+
+	if(empty($loginChecker)){
+		$sideHeader .= '<li><a>Login</a></li>';
+	}else if($loginChecker){
+		$sideHeader .= '<li><form method="post"><input type="submit" name="logoutButton" value="Logout"></form></li>';
+	}
+
+	$sideHeader .= '
 		<li><a href="impressum.php">Impressum</a></li>
 	</ul>
 

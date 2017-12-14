@@ -8,25 +8,31 @@
 $weekDay = array("Montag","Dienstag","Mittwoch","Donnerstag","Freitag");
 //$semesterClasses = array("Mathematik 1 Übung", "Mathematik 1 Übung", "Medienrecht","","Mathematik 1","Team Studieneinstieg","","Informatik 1","Informatik 1 Labor","Programmieren 1","Media","Dramaturgie 1","","","","Mathematik 2 Ünung","Mathematik 2 Übung","","Mathematik 2","irgendwas");
 
-if(file_exists("plugin/navigation/navbar_side.php")){include "plugin/navigation/navbar_side.php";}
-if(file_exists("plugin/header/header.php")){include "plugin/header/header.php";}
+$includeSwitch = array(1,1,1);
+if(file_exists("plugin/config/includer.php")){include "plugin/config/includer.php";}
 
-if(file_exists("plugin/import/timetable.php")){include "plugin/import/timetable.php";}
-if(file_exists("plugin/import/various.php")){include "plugin/import/various.php";}
-if(file_exists("plugin/database/presenter.php")){include "plugin/database/presenter.php";}
-if(file_exists("plugin/database/transmitter.php")){include "plugin/database/transmitter.php";}
+
+
+
 
 
 $tempUserID = 1;
 
 $userTimetable = showUserTimetable($tempUserID);
 
-
+$loginFieldMessage = "Loggen Sie sich mit ihrem Account hier ein.";
+$loginBorder = '';
 $showTable = false;
 if(($_SERVER["REQUEST_METHOD"] == "POST") or ($_SERVER["REQUEST_METHOD"] == "GET")){
 	if($_POST["sendLogin"]){
-		header("Location: http://".$_SERVER['HTTP_HOST']."".rtrim(dirname($_SERVER['PHP_SELF']), '/\\')."/user.php");
-		exit;
+		$loginFeedback = newLogin($_SERVER["REQUEST_METHOD"],$_POST["userName"],$_POST["userPassword"],false,$cookieName);
+		if($loginFeedback) {
+			header("Refresh:0");
+			exit;
+		}else{
+			$loginFieldMessage = "<span style='color: red'>Benutzer oder Password sind falsch!</span>";
+			$loginBorder = 'style="outline: 1px solid red"';
+		}
 	}else if($_GET["sendAnonymous"]){
 		if(!empty($_GET["anonymousID"])) {
 			header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/user.php?tableID=".$_GET["anonymousID"]);
@@ -50,8 +56,10 @@ if(($_SERVER["REQUEST_METHOD"] == "POST") or ($_SERVER["REQUEST_METHOD"] == "GET
 }
 if($_GET["missingField"]==true){
 	$anonymousFieldMessage = "<span style='color: red'>Geben Sie eine ID ein, nach der Sie suchen wollen:</span>";
+	$anonymousBorder = 'style="outline: 1px solid red"';
 }else{
 	$anonymousFieldMessage = "Stundenplan ID eingeben:";
+	$anonymousBorder = '';
 }
 /*
  if (checkForID($newAnonymousID) == 0){
@@ -71,26 +79,26 @@ if($_GET["missingField"]==true){
 </head>
 <body>
 <div id="main">
-	<?php echo sideHeader();?>
-	<div id="leftContent"><?php echo navbarSide($sideURlsAndNames);?></div>
+	<?php echo sideHeader($validUser);?>
+	<div id="leftContent"><?php if(!empty($sideURlsAndNames)){echo navbarSide($sideURlsAndNames);};?></div>
 	<div id="rightContent">
 		<?php
 		if($showTable == false) {
 			echo '
 		<div class="form--login">
-			<p>Loggen Sie sich mit ihrem Account hier ein.</p>
+			<p>'.$loginFieldMessage.'</p>
 			<form method="post">
 				<label for="userNameInput">Benutzername: </label>
-				<input type="text" name="userName" id="userNameInput" class="input--text" placeholder="A-Kennung">
+				<input type="text" name="userName" id="userNameInput" class="input--text" placeholder="A-Kennung" '.$loginBorder.'>
 				<label for="userPasswordInput">Password</label>
-				<input type="password" name="userPassword" class="input--text" id="userPasswordInput" placeholder="Password">
+				<input type="password" name="userPassword" class="input--text" id="userPasswordInput" placeholder="Password" '.$loginBorder.'>
 				<input type="submit" name="sendLogin" value="Login" class="input--button">
 			</form>
 		</div>
 		<div class="form--anonymous">
 			<form method="get">
 				<label for="anonymousID">'.$anonymousFieldMessage.'</label>
-				<input type="text" name="anonymousID" id="anonymousID" class="input--text" placeholder="Stundenplan ID">
+				<input type="text" name="anonymousID" id="anonymousID" class="input--text" placeholder="Stundenplan ID" '.$anonymousBorder.'>
 				<input type="submit" name="sendAnonymous" value="Suchen" class="input--button">
 			</form>
 			<br>

@@ -10,18 +10,23 @@
 	float: right;
 	padding-bottom: .5em;
 }
-#serviceNav a{
-	padding-left: 8px;
+#serviceNav a, #serviceNav input{
+	padding: 0 0 0 8px;
 	color: #4c423d;
-	height: 10px;
 	overflow: hidden;
 	line-height: 10px;
 	border-left: 1px solid #c8ba9e;
 	text-decoration: none;
 	font: 11px Arial,sans-serif;
 }
-
-
+#serviceNav input{
+	border: none;
+	border-left: 1px solid #c8ba9e;
+	background-color: inherit;
+}
+#serviceNav input:focus{
+	outline: none;
+}
 #actualHeader{
 	width: 1004px;
 	height: 160px;

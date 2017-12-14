@@ -15,11 +15,5 @@ echo ("
     <script type=\"text/javascript\" src=\"/libraries/jquery.js\"></script>
 ");
 
-$sideURlsAndNames = array(
-	["index","Home"],
-	["map","Karte"],
-	["timetable","Stundenplan"],
-	["user","Probeuser"],
-	["testarea","Testarea"]
-);
+
 ?>

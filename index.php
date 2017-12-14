@@ -25,7 +25,7 @@ if(file_exists("plugin/database/transmitter.php")){include "plugin/database/tran
 	<?php echo sideHeader();?>
 	<div id="leftContent"><?php echo navbarSide($sideURlsAndNames);?></div>
 	<div id="rightContent">
-		<div class="button--div--largeButton"><a href="user.php">Stundenplan</a></div>
+		<div class="button--div--largeButton"><a href="timetable.php">Stundenplan</a></div>
 		<div class="button--div--largeButton"><a href="map.php">Karten</a></div>
 	</div>
 </div>

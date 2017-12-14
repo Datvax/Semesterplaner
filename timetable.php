@@ -22,29 +22,46 @@ $tempUserID = 1;
 $userTimetable = showUserTimetable($tempUserID);
 
 
-
+$showTable = false;
 if(($_SERVER["REQUEST_METHOD"] == "POST") or ($_SERVER["REQUEST_METHOD"] == "GET")){
 	if($_POST["sendLogin"]){
 		header("Location: http://".$_SERVER['HTTP_HOST']."".rtrim(dirname($_SERVER['PHP_SELF']), '/\\')."/user.php");
 		exit;
 	}else if($_GET["sendAnonymous"]){
-		header("Location: http://".$_SERVER['HTTP_HOST']."".rtrim(dirname($_SERVER['PHP_SELF']), '/\\')."/user.php?".$_GET["anonymousID"]);
-		exit;
+		if(!empty($_GET["anonymousID"])) {
+			header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/user.php?tableID=".$_GET["anonymousID"]);
+			exit;
+		}else{
+			header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') ."?missingField=true");
+			exit;
+		}
 	}else if($_POST["sendNewAnonymous"]){
-		header("Location: http://".$_SERVER['HTTP_HOST']."".rtrim(dirname($_SERVER['PHP_SELF']), '/\\')."/user.php");
+		$showTable = true;
+	}else if($_POST["transmitHours"]){
+		$tableIDs = $_POST["timetable--Checkbox--ID"];
+		$uniqueAnonymousID = uniqid();
+		$newAnonymousID = createAnonymousUser($uniqueAnonymousID);
+
+		sendTimetableIDs(null,$newAnonymousID,$tableIDs);
+
+		header("Location: http://".$_SERVER['HTTP_HOST']."".rtrim(dirname($_SERVER['PHP_SELF']), '/\\')."/user.php?tableID=".$uniqueAnonymousID);
 		exit;
 	}
-
-
-	/*$tableIDs = $_POST["timetable--Checkbox--ID"];
-	if (checkForID($tempUserID) == 0){
-		sendTimetableIDs($tempUserID,$tableIDs);
-	} else {
-		updateTimetableIDs($tempUserID,$tableIDs);
-	}
-	header("Location: http://".$_SERVER['HTTP_HOST']."".rtrim(dirname($_SERVER['PHP_SELF']), '/\\')."/user.php");
-	exit;*/
 }
+if($_GET["missingField"]==true){
+	$anonymousFieldMessage = "<span style='color: red'>Geben Sie eine ID ein, nach der Sie suchen wollen:</span>";
+}else{
+	$anonymousFieldMessage = "Stundenplan ID eingeben:";
+}
+/*
+ if (checkForID($newAnonymousID) == 0){
+			sendTimetableIDs($newAnonymousID,$tableIDs);
+			$uniqueAnonymousID .= "JA".$newAnonymousID;
+		} else {
+			updateTimetableIDs($newAnonymousID,$tableIDs);
+			$uniqueAnonymousID .= "NEIN".$newAnonymousID;
+		}
+*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,6 +74,9 @@ if(($_SERVER["REQUEST_METHOD"] == "POST") or ($_SERVER["REQUEST_METHOD"] == "GET
 	<?php echo sideHeader();?>
 	<div id="leftContent"><?php echo navbarSide($sideURlsAndNames);?></div>
 	<div id="rightContent">
+		<?php
+		if($showTable == false) {
+			echo '
 		<div class="form--login">
 			<p>Loggen Sie sich mit ihrem Account hier ein.</p>
 			<form method="post">
@@ -69,22 +89,22 @@ if(($_SERVER["REQUEST_METHOD"] == "POST") or ($_SERVER["REQUEST_METHOD"] == "GET
 		</div>
 		<div class="form--anonymous">
 			<form method="get">
-				<label for="anonymousID">Stundenplan ID eingeben:</label>
+				<label for="anonymousID">'.$anonymousFieldMessage.'</label>
 				<input type="text" name="anonymousID" id="anonymousID" class="input--text" placeholder="Stundenplan ID">
 				<input type="submit" name="sendAnonymous" value="Suchen" class="input--button">
 			</form>
 			<br>
 			<form method="post">
-				<p>Einen neuen anonymen Stundenplan erstellen.<br>Es können keine Rückschlüsse auf den Besitzer gezogen werden.</p>
+				<p>Einen neuen anonymen Stundenplan erstellen.</p>
 				<input type="submit" name="sendNewAnonymous" value="Neuer Plan" class="input--button">
 			</form>
-		</div>
+		</div>';
+		}
 
 
-			<?php
-			//echo '<form method=\"post\">';
-			//echo (SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16")),getTimetableClassIDs("StundenplanMS")));
-			//echo '<input type="submit" value="send" class="button--send">';
+			if ($showTable == true){
+				echo '<form method="post">'.(SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16")),getTimetableClassIDs("StundenplanMS"))).'<input type="submit" name="transmitHours" value="send" class="button--send"></form>';
+			}
 			?>
 		</form>
 	</div>

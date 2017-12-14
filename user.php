@@ -19,19 +19,6 @@ if(file_exists("plugin/database/transmitter.php")){include "plugin/database/tran
 
 
 $tempUserID = 1;
-
-$userTimetable = showUserTimetable($tempUserID);
-
-
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-	$tableIDs = $_POST["timetable--Checkbox--ID"];
-	if (checkForID($tempUserID) == 0){
-		sendTimetableIDs($tempUserID,$tableIDs);
-	} else {
-		updateTimetableIDs($tempUserID,$tableIDs);
-	}
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,8 +32,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	<div id="leftContent"><?php echo navbarSide($sideURlsAndNames);?></div>
 	<div id="rightContent">
 		<?php
-		$userTimetableData = showUserTimetable($tempUserID);
-		echo (userTable("timetable",$weekDay,$userTimetableData));
+		if(!empty($_GET["tableID"])){
+			echo "<p>Ihr erstellter Stundenplan hat die ID: <span style='font-weight: bold'>".$_GET["tableID"]."</span>. Sollten Sie diesen Stundenplan erneut
+			aufrufen wollen, geben Sie diese ID in das entsprechnede Feld auf der <a href='timetable.php'>Stundenplan Seite</a> ein.</p>";
+			echo (userTable("timetable",$weekDay,showUserTimetable("",$_GET["tableID"])));
+		}else if(!empty($_POST["userID"])){
+			echo (userTable("timetable",$weekDay,showUserTimetable($tempUserID)));
+		}
+
 		?>
 		<a href="timetable.php">Stundenplan Editieren</a>
 	</div>

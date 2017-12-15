@@ -24,6 +24,9 @@
 	border-left: 1px solid #c8ba9e;
 	background-color: inherit;
 }
+#serviceNav input:hover{
+	cursor: pointer;
+}
 #serviceNav input:focus{
 	outline: none;
 }

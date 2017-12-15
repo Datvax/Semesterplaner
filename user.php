@@ -33,8 +33,9 @@ $tempUserID = 1;
 			echo (userTable("timetable",$weekDay,showUserTimetable("",$_GET["tableID"])));
 		}else if(!empty($_POST["userID"])){
 			echo (userTable("timetable",$weekDay,showUserTimetable($tempUserID)));
+		}else {
+			echo(userTable("timetable", $weekDay, showUserTimetable()));
 		}
-
 		?>
 		<a href="timetable.php">Stundenplan Editieren</a>
 	</div>

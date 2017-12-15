@@ -5,71 +5,100 @@
  * Date: 04.12.2017
  * Time: 01:59
  */
-$weekDay = array("Montag","Dienstag","Mittwoch","Donnerstag","Freitag");
-//$semesterClasses = array("Mathematik 1 Übung", "Mathematik 1 Übung", "Medienrecht","","Mathematik 1","Team Studieneinstieg","","Informatik 1","Informatik 1 Labor","Programmieren 1","Media","Dramaturgie 1","","","","Mathematik 2 Ünung","Mathematik 2 Übung","","Mathematik 2","irgendwas");
 
+/**
+ * include all files
+ */
 $includeSwitch = array(1,1,1);
 if(file_exists("plugin/config/includer.php")){include "plugin/config/includer.php";}
 
-
-
-
-
-
-$tempUserID = 1;
-
-$userTimetable = showUserTimetable($tempUserID);
-
-$loginFieldMessage = "Loggen Sie sich mit ihrem Account hier ein.";
-$loginBorder = '';
-$showTable = false;
-if(($_SERVER["REQUEST_METHOD"] == "POST") or ($_SERVER["REQUEST_METHOD"] == "GET")){
-	if($_POST["sendLogin"]){
-		$loginFeedback = newLogin($_SERVER["REQUEST_METHOD"],$_POST["userName"],$_POST["userPassword"],false,$cookieName);
-		if($loginFeedback) {
-			header("Refresh:0");
-			exit;
-		}else{
-			$loginFieldMessage = "<span style='color: red'>Benutzer oder Password sind falsch!</span>";
-			$loginBorder = 'style="outline: 1px solid red"';
-		}
-	}else if($_GET["sendAnonymous"]){
-		if(!empty($_GET["anonymousID"])) {
-			header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . "/user.php?tableID=".$_GET["anonymousID"]);
-			exit;
-		}else{
-			header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') ."?missingField=true");
+/**
+ * Check if user is logged in
+ */
+if($validUser){
+	$currentUserSelector = getUserSelector($cookieName);
+	if(checkForUserTimetable($currentUserSelector)){
+		if( ($_GET["s"] != 1) and ($_GET["s"] != 2) ) {
+			header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=2");
 			exit;
 		}
-	}else if($_POST["sendNewAnonymous"]){
-		$showTable = true;
-	}else if($_POST["transmitHours"]){
-		$tableIDs = $_POST["timetable--Checkbox--ID"];
-		$uniqueAnonymousID = uniqid();
-		$newAnonymousID = createAnonymousUser($uniqueAnonymousID);
-
-		sendTimetableIDs(null,$newAnonymousID,$tableIDs);
-
-		header("Location: http://".$_SERVER['HTTP_HOST']."".rtrim(dirname($_SERVER['PHP_SELF']), '/\\')."/user.php?tableID=".$uniqueAnonymousID);
-		exit;
+	}else{
+		$currentUserSelector = null;
 	}
 }
-if($_GET["missingField"]==true){
-	$anonymousFieldMessage = "<span style='color: red'>Geben Sie eine ID ein, nach der Sie suchen wollen:</span>";
-	$anonymousBorder = 'style="outline: 1px solid red"';
-}else{
-	$anonymousFieldMessage = "Stundenplan ID eingeben:";
-	$anonymousBorder = '';
-}
-/*
- if (checkForID($newAnonymousID) == 0){
-			sendTimetableIDs($newAnonymousID,$tableIDs);
-			$uniqueAnonymousID .= "JA".$newAnonymousID;
-		} else {
-			updateTimetableIDs($newAnonymousID,$tableIDs);
-			$uniqueAnonymousID .= "NEIN".$newAnonymousID;
+
+/**
+ * Prepare a Message which can be manipulated in the next section
+ */
+$loginFieldMessage = "Loggen Sie sich mit ihrem Account hier ein.";
+$loginBorder = '';
+
+/**
+ * Separates the side in three parts:
+ *	- First Part: Fresh User
+ *	- Second Part: Create a new timetable
+ *	- third Part: show customised timetable
+ */
+
+/**
+ * Part 1
+ */
+if(($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)){
+	if(($_SERVER["REQUEST_METHOD"] == "POST") or ($_SERVER["REQUEST_METHOD"] == "GET")) {
+		if ($_POST["sendLogin"]) {
+			$loginFeedback = newLogin($_SERVER["REQUEST_METHOD"], $_POST["userName"], $_POST["userPassword"], false, $cookieName, $sessionUserID);
+			if ($loginFeedback) {
+				header("Refresh:0");
+				exit;
+			} else {
+				$loginFieldMessage = "<span style='color: red'>Benutzer oder Password sind falsch!</span>";
+				$loginBorder = 'style="outline: 1px solid red"';
+			}
+		} else if ($_GET["sendAnonymous"]) {
+			if (!empty($_GET["anonymousID"])) {
+				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=2&tableID=" . $_GET["anonymousID"]);
+				exit;
+			} else {
+				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?missingField=true");
+				exit;
+			}
+		} else if ($_POST["sendNewAnonymous"]) {
+			header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=1");
+			exit;
 		}
-*/
+	}
+}
+/**
+ * Part 2
+ */
+if($_GET["s"] == 1) {
+	if($_SERVER["REQUEST_METHOD"] == "POST") {
+		if ($_POST["transmitHours"]) {
+			$tableIDs = $_POST["timetable--Checkbox--ID"];
+			if($validUser){
+				if(!checkForUserTimetable(getUserSelector($cookieName))[0]){
+					sendTimetableIDs(getUserSelector($cookieName),null,$tableIDs);
+				}else{
+					updateTimetableIDs(getUserSelector($cookieName),$tableIDs);
+				}
+				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=2");
+				exit;
+			}else{
+				$uniqueAnonymousID = uniqid();
+				$newAnonymousID = createAnonymousUser($uniqueAnonymousID);
+				sendTimetableIDs(null, $newAnonymousID, $tableIDs);
+				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=2&tableID=".$uniqueAnonymousID);
+				exit;
+			}
+		}
+	}
+}
+/**
+ * Part 3
+ */
+if($_GET["s"] == 2){
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,7 +112,17 @@ if($_GET["missingField"]==true){
 	<div id="leftContent"><?php if(!empty($sideURlsAndNames)){echo navbarSide($sideURlsAndNames);};?></div>
 	<div id="rightContent">
 		<?php
-		if($showTable == false) {
+		/**
+		 * Separates the page again in the three parts from above
+		 */
+		if(($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)) {
+			if($_GET["missingField"]==true){
+				$anonymousFieldMessage = "<span style='color: red'>Geben Sie eine ID ein, nach der Sie suchen wollen:</span>";
+				$anonymousBorder = 'style="outline: 1px solid red"';
+			}else{
+				$anonymousFieldMessage = "Stundenplan ID eingeben:";
+				$anonymousBorder = '';
+			}
 			echo '
 		<div class="form--login">
 			<p>'.$loginFieldMessage.'</p>
@@ -107,13 +146,21 @@ if($_GET["missingField"]==true){
 				<input type="submit" name="sendNewAnonymous" value="Neuer Plan" class="input--button">
 			</form>
 		</div>';
-		}
-
-
-			if ($showTable == true){
-				echo '<form method="post">'.(SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16")),getTimetableClassIDs("StundenplanMS"))).'<input type="submit" name="transmitHours" value="send" class="button--send"></form>';
+		}else if($_GET["s"] == 1){
+			echo '<form method="post">'.(SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16")),getTimetableClassIDs("StundenplanMS"))).'<input type="submit" name="transmitHours" value="Erstellen" class="input--button"></form>';
+		}else if($_GET["s"] == 2){
+			if(!empty($_GET["tableID"])){
+				echo "<p>Ihr erstellter Stundenplan hat die ID: <span style='font-weight: bold'>".$_GET["tableID"]."</span>. Sollten Sie diesen Stundenplan erneut
+			aufrufen wollen, geben Sie diese ID in das entsprechnede Feld auf der <a href='timetable.php'>Stundenplan Seite</a> ein.</p>";
+				echo (userTable("timetable",$weekDay,showUserTimetable("",$_GET["tableID"])));
+			}else if(!empty($currentUserSelector)){
+				echo (userTable("timetable",$weekDay,showUserTimetable($currentUserSelector)));
+				echo '<a href="timetable.php?s=1">Stundenplan Editieren</a>';
+			}else {
+				echo(userTable("timetable", $weekDay, showUserTimetable()));
 			}
-			?>
+		}
+		?>
 		</form>
 	</div>
 </div>

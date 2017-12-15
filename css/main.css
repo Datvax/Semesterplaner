@@ -54,6 +54,7 @@ body{
 	border-spacing: 0;
 	width: 784px;
 	table-layout: fixed;
+	margin: 20px 0;
 }
 .timetable tr{
 
@@ -62,7 +63,7 @@ body{
 	height: 90px;
 }
 .timetable tbody>tr:nth-child(odd){
-	background-color: #969696;
+	background-color: #eae9e7;
 }
 .timetable tr>th{
 	padding: 0;

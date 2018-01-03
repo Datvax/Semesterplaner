@@ -12,6 +12,8 @@
 $includeSwitch = array(1,1,1);
 if(file_exists("plugin/config/includer.php")){include "plugin/config/includer.php";}
 
+
+
 /**
  * Check if user is logged in
  */
@@ -147,15 +149,21 @@ if($_GET["s"] == 2){
 			</form>
 		</div>';
 		}else if($_GET["s"] == 1){
-			echo '<form method="post">'.(SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16")),getTimetableClassIDs("StundenplanMS"))).'<input type="submit" name="transmitHours" value="Erstellen" class="input--button"></form>';
+			/**
+			 * Calls the timetable creator
+			 */
+			echo '<form method="post">'.(SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16")),getTimetableClassIDs("StundenplanMS"),$currentUserSelector)).'<input type="submit" name="transmitHours" value="Erstellen" class="input--button"> <a href="timetable.php?s=2" class="button--a--smallButton">Abbrechen</a></form>';
 		}else if($_GET["s"] == 2){
+			/**
+			 * Calls the created timetable
+			 */
 			if(!empty($_GET["tableID"])){
 				echo "<p>Ihr erstellter Stundenplan hat die ID: <span style='font-weight: bold'>".$_GET["tableID"]."</span>. Sollten Sie diesen Stundenplan erneut
 			aufrufen wollen, geben Sie diese ID in das entsprechnede Feld auf der <a href='timetable.php'>Stundenplan Seite</a> ein.</p>";
 				echo (userTable("timetable",$weekDay,showUserTimetable("",$_GET["tableID"])));
 			}else if(!empty($currentUserSelector)){
 				echo (userTable("timetable",$weekDay,showUserTimetable($currentUserSelector)));
-				echo '<a href="timetable.php?s=1">Stundenplan Editieren</a>';
+				echo '<a href="timetable.php?s=1" class="button--a--smallButton">Stundenplan Editieren</a>';
 			}else {
 				echo(userTable("timetable", $weekDay, showUserTimetable()));
 			}

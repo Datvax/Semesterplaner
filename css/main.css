@@ -147,8 +147,12 @@ body{
 	display: block;
 	margin: 10px;
 }
-
-.input--button{
+.button--a--smallButton{
+	text-decoration: none;
+	font-size: smaller;
+	color: black;
+}
+.input--button, .button--a--smallButton{
 	border: solid #C6B9A6 1px;
 	background-color: #f9f9f9;
 	border-radius: 2px;
@@ -157,7 +161,7 @@ body{
 	padding: 4px 12px;
 	transition: 0.5s;
 }
-.input--button:hover{
+.input--button:hover, .button--a--smallButton:hover{
 	background-color: #003CA0;
 	border-color: rgba(154,185,217,0.5);
 	color: #ffffff;

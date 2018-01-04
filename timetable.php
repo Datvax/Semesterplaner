@@ -6,7 +6,7 @@
  * Time: 01:59
  */
 
-/**
+/*
  * include all files
  */
 $includeSwitch = array(1,1,1);
@@ -14,7 +14,7 @@ if(file_exists("plugin/config/includer.php")){include "plugin/config/includer.ph
 
 
 
-/**
+/*
  * Check if user is logged in
  */
 if($validUser){
@@ -29,20 +29,20 @@ if($validUser){
 	}
 }
 
-/**
+/*
  * Prepare a Message which can be manipulated in the next section
  */
 $loginFieldMessage = "Loggen Sie sich mit ihrem Account hier ein.";
 $loginBorder = '';
 
-/**
+/*
  * Separates the side in three parts:
  *	- First Part: Fresh User
  *	- Second Part: Create a new timetable
  *	- third Part: show customised timetable
  */
 
-/**
+/*
  * Part 1
  */
 if(($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)){
@@ -70,13 +70,27 @@ if(($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)){
 		}
 	}
 }
-/**
+/*
  * Part 2
  */
 if($_GET["s"] == 1) {
 	if($_SERVER["REQUEST_METHOD"] == "POST") {
 		if ($_POST["transmitHours"]) {
 			$tableIDs = $_POST["timetable--Checkbox--ID"];
+			// Check if user has selected at least one hour
+			if(is_null($tableIDs)){
+				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\')."?s=1&error=noSelects");
+				exit;
+			}
+			// Check if user has selected the same time twice
+			$timeIDs = array_reduce(getTimeIDs($tableIDs),'array_merge', array());
+			if(!is_null($timeIDs[NULL])){
+				unset($timeIDs[NULL]);
+			}
+			if(count(array_unique($timeIDs))<count($timeIDs)){
+				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\')."?s=1&error=doubleTime");
+				exit;
+			}
 			if($validUser){
 				if(!checkForUserTimetable(getUserSelector($cookieName))[0]){
 					sendTimetableIDs(getUserSelector($cookieName),null,$tableIDs);
@@ -95,7 +109,7 @@ if($_GET["s"] == 1) {
 		}
 	}
 }
-/**
+/*
  * Part 3
  */
 if($_GET["s"] == 2){
@@ -114,7 +128,7 @@ if($_GET["s"] == 2){
 	<div id="leftContent"><?php if(!empty($sideURlsAndNames)){echo navbarSide($sideURlsAndNames);};?></div>
 	<div id="rightContent">
 		<?php
-		/**
+		/*
 		 * Separates the page again in the three parts from above
 		 */
 		if(($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)) {
@@ -149,12 +163,18 @@ if($_GET["s"] == 2){
 			</form>
 		</div>';
 		}else if($_GET["s"] == 1){
-			/**
+			/*
 			 * Calls the timetable creator
 			 */
+			if($_GET["error"]=="noSelects"){
+				echo "<span style='color: red'>Es müssen zunächst stunden ausgewählt werden!</span>";
+			}
+			if($_GET["error"]=="doubleTime"){
+				echo "<span style='color: red'>Es überscheinden sich Zeiten!</span>";
+			}
 			echo '<form method="post">'.(SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16")),getTimetableClassIDs("StundenplanMS"),$currentUserSelector)).'<input type="submit" name="transmitHours" value="Erstellen" class="input--button"> <a href="timetable.php?s=2" class="button--a--smallButton">Abbrechen</a></form>';
 		}else if($_GET["s"] == 2){
-			/**
+			/*
 			 * Calls the created timetable
 			 */
 			if(!empty($_GET["tableID"])){
@@ -169,7 +189,6 @@ if($_GET["s"] == 2){
 			}
 		}
 		?>
-		</form>
 	</div>
 </div>
 <footer>

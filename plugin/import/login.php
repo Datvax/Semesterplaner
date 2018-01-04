@@ -24,6 +24,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		setcookie($cookieName, '', 0,'/',$_SERVER['HTTP_HOST'],true);
 		session_unset();
 		session_destroy();
+		if($_GET["s"]==2 || $_GET["s"]==1){
+			header("Refresh:0; url=http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\'));
+			exit;
+		}
 		header("Refresh:0");
 		exit;
 	}

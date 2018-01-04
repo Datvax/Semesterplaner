@@ -27,6 +27,8 @@ if($validUser){
 	}else{
 		$currentUserSelector = null;
 	}
+}else{
+	$currentUserSelector = null;
 }
 
 /*
@@ -45,9 +47,9 @@ $loginBorder = '';
 /*
  * Part 1
  */
-if(($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)){
-	if(($_SERVER["REQUEST_METHOD"] == "POST") or ($_SERVER["REQUEST_METHOD"] == "GET")) {
-		if ($_POST["sendLogin"]) {
+if (!isset($_GET["s"]) or ($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)) {
+	if (($_SERVER["REQUEST_METHOD"] == "POST") or ($_SERVER["REQUEST_METHOD"] == "GET")) {
+		if (isset($_POST["sendLogin"]) and $_POST["sendLogin"]) {
 			$loginFeedback = newLogin($_SERVER["REQUEST_METHOD"], $_POST["userName"], $_POST["userPassword"], false, $cookieName, $sessionUserID);
 			if ($loginFeedback) {
 				header("Refresh:0");
@@ -56,7 +58,7 @@ if(($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)){
 				$loginFieldMessage = "<span style='color: red'>Benutzer oder Password sind falsch!</span>";
 				$loginBorder = 'style="outline: 1px solid red"';
 			}
-		} else if ($_GET["sendAnonymous"]) {
+		} else if (isset($_GET["sendAnonymous"]) and $_GET["sendAnonymous"]) {
 			if (!empty($_GET["anonymousID"])) {
 				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=2&tableID=" . $_GET["anonymousID"]);
 				exit;
@@ -64,7 +66,7 @@ if(($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)){
 				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?missingField=true");
 				exit;
 			}
-		} else if ($_POST["sendNewAnonymous"]) {
+		} else if (isset($_POST["sendNewAnonymous"]) and $_POST["sendNewAnonymous"]) {
 			header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=1");
 			exit;
 		}
@@ -73,37 +75,38 @@ if(($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)){
 /*
  * Part 2
  */
-if($_GET["s"] == 1) {
-	if($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_GET["s"]) and ($_GET["s"] == 1)) {
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if ($_POST["transmitHours"]) {
 			$tableIDs = $_POST["timetable--Checkbox--ID"];
 			// Check if user has selected at least one hour
-			if(is_null($tableIDs)){
-				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\')."?s=1&error=noSelects");
+			if (is_null($tableIDs)) {
+				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=1&error=noSelects");
 				exit;
 			}
 			// Check if user has selected the same time twice
-			$timeIDs = array_reduce(getTimeIDs($tableIDs),'array_merge', array());
-			if(!is_null($timeIDs[NULL])){
+			$timeIDs = array_reduce(getTimeIDs($tableIDs), 'array_merge', array());
+			if (!is_null($timeIDs[NULL])) {
 				unset($timeIDs[NULL]);
 			}
-			if(count(array_unique($timeIDs))<count($timeIDs)){
-				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\')."?s=1&error=doubleTime");
+			if (count(array_unique($timeIDs)) < count($timeIDs)) {
+				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=1&error=doubleTime");
 				exit;
 			}
-			if($validUser){
-				if(!checkForUserTimetable(getUserSelector($cookieName))[0]){
-					sendTimetableIDs(getUserSelector($cookieName),null,$tableIDs);
-				}else{
-					updateTimetableIDs(getUserSelector($cookieName),$tableIDs);
+			if ($validUser) {
+				$tempOLDPHP = checkForUserTimetable(getUserSelector($cookieName));
+				if (!$tempOLDPHP[0]) {
+					sendTimetableIDs(getUserSelector($cookieName), null, $tableIDs);
+				} else {
+					updateTimetableIDs(getUserSelector($cookieName), $tableIDs);
 				}
 				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=2");
 				exit;
-			}else{
+			} else {
 				$uniqueAnonymousID = uniqid();
 				$newAnonymousID = createAnonymousUser($uniqueAnonymousID);
 				sendTimetableIDs(null, $newAnonymousID, $tableIDs);
-				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=2&tableID=".$uniqueAnonymousID);
+				header("Location: http://" . $_SERVER['HTTP_HOST'] . "" . rtrim($_SERVER['PHP_SELF'], '/\\') . "?s=2&tableID=" . $uniqueAnonymousID);
 				exit;
 			}
 		}
@@ -112,27 +115,35 @@ if($_GET["s"] == 1) {
 /*
  * Part 3
  */
-if($_GET["s"] == 2){
+if (isset($_GET["s"]) and $_GET["s"] == 2) {
 
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<?php include "plugin/import/head.php" ?>
+	<?php
+	include "plugin/import/head.php"
+	?>
 	<title>Semesterplaner</title>
 </head>
 <body>
 <div id="main">
-	<?php echo sideHeader($validUser);?>
-	<div id="leftContent"><?php if(!empty($sideURlsAndNames)){echo navbarSide($sideURlsAndNames);};?></div>
+	<?php
+	echo sideHeader($validUser);
+	?>
+	<div id="leftContent">
+		<?php
+		if(!empty($sideURlsAndNames)){echo navbarSide($sideURlsAndNames);};
+		?>
+	</div>
 	<div id="rightContent">
 		<?php
 		/*
 		 * Separates the page again in the three parts from above
 		 */
-		if(($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)) {
-			if($_GET["missingField"]==true){
+		if(!isset($_GET["s"]) or ($_GET["s"] == null) or ($_GET["s"] == 0) or ($_GET["s"] > 2)) {
+			if(isset($_GET["missingField"]) and $_GET["missingField"]==true){
 				$anonymousFieldMessage = "<span style='color: red'>Geben Sie eine ID ein, nach der Sie suchen wollen:</span>";
 				$anonymousBorder = 'style="outline: 1px solid red"';
 			}else{
@@ -162,18 +173,18 @@ if($_GET["s"] == 2){
 				<input type="submit" name="sendNewAnonymous" value="Neuer Plan" class="input--button">
 			</form>
 		</div>';
-		}else if($_GET["s"] == 1){
+		}else if(isset($_GET["s"]) and $_GET["s"] == 1){
 			/*
 			 * Calls the timetable creator
 			 */
-			if($_GET["error"]=="noSelects"){
+			if(isset($_GET["error"]) and $_GET["error"]=="noSelects"){
 				echo "<span style='color: red'>Es müssen zunächst stunden ausgewählt werden!</span>";
 			}
-			if($_GET["error"]=="doubleTime"){
+			if(isset($_GET["error"]) and $_GET["error"]=="doubleTime"){
 				echo "<span style='color: red'>Es überscheinden sich Zeiten!</span>";
 			}
 			echo '<form method="post">'.(SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16")),getTimetableClassIDs("StundenplanMS"),$currentUserSelector)).'<input type="submit" name="transmitHours" value="Erstellen" class="input--button"> <a href="timetable.php?s=2" class="button--a--smallButton">Abbrechen</a></form>';
-		}else if($_GET["s"] == 2){
+		}else if(isset($_GET["s"]) and $_GET["s"] == 2){
 			/*
 			 * Calls the created timetable
 			 */

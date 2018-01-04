@@ -17,7 +17,7 @@ if(validateUser($cookieName)){
  * Handles the logout request
  */
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-	if($_POST['logoutButton']){
+	if(isset($_POST['logoutButton']) and $_POST['logoutButton']){
 		if(validateUser($cookieName)){
 			deleteOldToken($_SESSION['userID']);
 		}

@@ -166,3 +166,21 @@ body{
 	border-color: rgba(154,185,217,0.5);
 	color: #ffffff;
 }
+
+/**Map styling**/
+/****/
+#roomTable{
+	width: 100%;
+	border-collapse: collapse;
+}
+#roomTable td, #roomTable th{
+	border: 1px solid #71a1cb;
+	padding: 5px;
+	box-sizing: border-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+#roomTable th{
+	text-align: left;
+	color: #00309a;
+}

@@ -17,7 +17,7 @@ if(file_exists("plugin/config/includer.php")){include "plugin/config/includer.ph
 	<title>Semesterplaner</title>
 </head>
 <body>
-<div id="main" style="height: 1000px">
+<div id="main">
 	<?php echo sideHeader($validUser);?>
 	<div id="leftContent"><?php if(!empty($sideURlsAndNames)){echo navbarSide($sideURlsAndNames);};?></div>
 	<div id="rightContent">

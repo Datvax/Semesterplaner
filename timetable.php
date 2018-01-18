@@ -120,7 +120,7 @@ if (isset($_GET["s"]) and $_GET["s"] == 2) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 	<?php
 	include "plugin/import/head.php"
@@ -181,7 +181,7 @@ if (isset($_GET["s"]) and $_GET["s"] == 2) {
 				echo "<span style='color: red'>Es müssen zunächst stunden ausgewählt werden!</span>";
 			}
 			if(isset($_GET["error"]) and $_GET["error"]=="doubleTime"){
-				echo "<span style='color: red'>Es überscheinden sich Zeiten!</span>";
+				echo "<span style='color: red'>Es überschneiden sich Zeiten!</span>";
 			}
 			echo '<form method="post">'.(SemesterTable("timetable",6,$weekDay, replaceStrInArray("Freistunde","",getReadableTimetable("KursMS16")),getTimetableClassIDs("StundenplanMS"),$currentUserSelector)).'<input type="submit" name="transmitHours" value="Erstellen" class="input--button"> <a href="timetable.php?s=2" class="button--a--smallButton">Abbrechen</a></form>';
 		}else if(isset($_GET["s"]) and $_GET["s"] == 2){
@@ -190,11 +190,11 @@ if (isset($_GET["s"]) and $_GET["s"] == 2) {
 			 */
 			if(!empty($_GET["tableID"])){
 				echo "<p>Ihr erstellter Stundenplan hat die ID: <span style='font-weight: bold'>".$_GET["tableID"]."</span>. Sollten Sie diesen Stundenplan erneut
-			aufrufen wollen, geben Sie diese ID in das entsprechnede Feld auf der <a href='timetable.php'>Stundenplan Seite</a> ein.</p>";
+			aufrufen wollen, geben Sie diese ID in das entsprechende Feld auf der <a href='timetable.php'>Stundenplanseite</a> ein.</p>";
 				echo (userTable("timetable",$weekDay,showUserTimetable("",$_GET["tableID"])));
 			}else if(!empty($currentUserSelector)){
 				echo (userTable("timetable",$weekDay,showUserTimetable($currentUserSelector)));
-				echo '<a href="timetable.php?s=1" class="button--a--smallButton">Stundenplan Editieren</a>';
+				echo '<a href="timetable.php?s=1" class="button--a--smallButton">Stundenplan editieren</a>';
 			}else {
 				echo(userTable("timetable", $weekDay, showUserTimetable()));
 			}

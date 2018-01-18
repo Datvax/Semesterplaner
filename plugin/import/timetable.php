@@ -7,19 +7,23 @@
  */
 
 function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semesterClasses = null, array $semesterClasseID, $currentUserSelector = null){
-	/**make sure that there are enough ID's for every span in the table**/
+	/*
+	 * make sure that there are enough ID's for every span in the table
+	 */
 	if(count($semesterClasseID) <= (15*$semesterCount)){
 		for($runCat = count($semesterClasseID); $runCat < (15*$semesterCount); $runCat++){
 			$semesterClasseID[$runCat][0]="1";
 			//array_push($semesterClasseID,"1");
 		}
 	}
-	/**
+	/*
 	 * Get the current choice from the user
 	 */
 	if(!is_null($currentUserSelector)){
 		$userTableIDs = getPersonalTimetable($currentUserSelector);
 		$userTableIDs = array_fill_keys(array_filter(array_combine($userTableIDs,$userTableIDs)),"checked");
+	}else{
+		$userTableIDs = NULL;
 	}
 	/**table head**/
 	$newSemesterTable = "
@@ -37,7 +41,7 @@ function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semest
 				</th>
 	";
 	}
-	/**
+	/*
 	 * end of table head
 	 * and
 	 * start table body
@@ -57,7 +61,7 @@ function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semest
 				</td>
 		";
 		for($runLara = 1; $runLara <= $semesterCount; $runLara++){
-			/**
+			/*
 			 * input:
 			 * 	type: checkbox
 			 * 	name: the names have these [] to use them as an array
@@ -94,16 +98,22 @@ function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semest
 					</div>
 				</td>
 			";
-			/**amount of divs per day times 5**/
+			/*
+			 * amount of divs per day times 5
+			 */
 			$dayCounter = $dayCounter + 15;
 		}
-		/**amount of divs per day**/
+		/*
+		 * amount of divs per day
+		 */
 		$hourCounter = $hourCounter + 3;
 		$newSemesterTable .= "
 			</tr>
 		";
 	}
-	/**end of table body**/
+	/*
+	 * end of table body
+	 */
 	$newSemesterTable .= "
 		</tbody>
 	</table>
@@ -113,11 +123,15 @@ function SemesterTable($tableClass, $semesterCount,array $weekdays,array $semest
 
 
 function userTable($tableClass ,array $weekdays,array $userTableData){
-	/**replaces every "Freistunde" with an empty string**/
+	/*
+	 * replaces every "Freistunde" with an empty string
+	 */
 	include_once "various.php";
 	$userTableData = replaceStrInArray("Freistunde","",$userTableData);
 
-	/**create table head**/
+	/*
+	 * create table head
+	 */
 	$newUserTable = "
 	<table class='".$tableClass."'>
 		<thead>
@@ -133,7 +147,7 @@ function userTable($tableClass ,array $weekdays,array $userTableData){
 				</th>
 	";
 	}
-	/**
+	/*
 	 * end of table head
 	 * and
 	 * start table body
@@ -144,9 +158,13 @@ function userTable($tableClass ,array $weekdays,array $userTableData){
 		<tbody>
 	";
 	$timeCounter = 0;
-	/**Timestamps that will be shown in the timetable**/
+	/*
+	 * Timestamps that will be shown in the timetable
+	 */
 	$semesterTime = [strtotime("08:30:00"), strtotime("13:00:00"), strtotime("17:00:00") ];
-	/**Loops through the times with an offset of 30 min (1800 Unix timestamp)**/
+	/*
+	 * Loops through the times with an offset of 30 min (1800 Unix timestamp)
+	 */
 	for($runChell = strtotime("00:00:00"); $runChell <= strtotime("23:59:59"); $runChell = $runChell + 1800) {
 		$dayCounter = 1;
 		/**Creates the times on the left of the table**/
@@ -158,7 +176,9 @@ function userTable($tableClass ,array $weekdays,array $userTableData){
 				</td>
 			";
 		}
-		/**triggers at specific times**/
+		/*
+		 * triggers at specific times
+		 */
 		if($runChell == strtotime("08:30:00")||$runChell == strtotime("13:00:00")||$runChell == strtotime("17:00:00")) {
 			for ($runLara = 1; $runLara <= count($weekdays); $runLara++) {
 				if($userTableData[$timeCounter][1]==$dayCounter){
@@ -172,7 +192,9 @@ function userTable($tableClass ,array $weekdays,array $userTableData){
 				$newUserTable .= "
 				<td class='timetable--hours'>
 					<div class='timetable--hour--1'>
+						<a href='map.php?r=".$userTableData[$timeCounter][4]."'>
 						" . $writeClass . "
+						</a>
 					</div>
 				</td>
 				";
@@ -184,7 +206,9 @@ function userTable($tableClass ,array $weekdays,array $userTableData){
 			</tr>
 		";
 	}
-	/**end of table body**/
+	/*
+	 * end of table body
+	 */
 	$newUserTable .= "
 		</tbody>
 	</table>

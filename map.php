@@ -9,10 +9,9 @@
 $includeSwitch = array(1,1,0);
 if(file_exists("plugin/config/includer.php")){include "plugin/config/includer.php";}
 
-
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 	<?php include "plugin/import/head.php" ?>
 	<title>Semesterplaner</title>
@@ -62,6 +61,17 @@ if(file_exists("plugin/config/includer.php")){include "plugin/config/includer.ph
 		<div id="roomInfoBox"><br><span style="display: block; width: 100%; text-align: center">Klicken Sie auf die Räume für mehr Informationen</span></div>
 	</div>
 </div>
+<?php
+if(isset($_GET["r"]) and $_GET["r"] != ""){
+	echo ("
+		<script>
+			$(document).ready(function(){
+				showRoomInfo('". $_GET["r"] ."');
+			});
+		</script>
+	");
+}
+?>
 <script>
 	$(document).ready(function(){
 		$("area").click(function(event){

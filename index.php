@@ -11,7 +11,7 @@ if(file_exists("plugin/config/includer.php")){include "plugin/config/includer.ph
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 	<?php include "plugin/import/head.php" ?>
 	<title>Semesterplaner</title>
